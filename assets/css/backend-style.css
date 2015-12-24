@@ -1,0 +1,131 @@
+.box{
+	background-color: white;
+	width: 800px;
+	margin: auto;
+	border: #55ACEE 2px;
+	border-style: solid;
+	padding: 20px;
+}
+.send24_container{
+	display: flex;
+	align-items: baseline;
+	justify-content: space-around;
+
+}
+.send24_container_col{
+	flex-direction: column;
+	display: flex;
+}
+.send24_container_col_item_child{
+	color: #000000;
+	margin: 1px;
+	/*background-color: antiquewhite;*/
+	margin: auto;
+	height: 35px;
+}
+.send24_input_form{
+	margin: auto !important;
+}
+.send24_save_inf_button{
+	display: flex;
+	justify-content: center;
+}
+.send24_orders_table{
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	margin: 25px auto 25px auto;
+	text-align: center;
+}
+.send24_orders_table tr td{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.send24_notice{
+	width: 100%;
+	color: #404040;
+	background-color: #F7FCFE;
+	border-left: 3px solid #00a0d2;
+}
+.send24_notice p{
+	padding: 10px;
+}
+.send24_notice a{
+	text-decoration: none; 
+} 
+
+.p_send24_success{
+	display: inline-block;
+	margin-left: 5px;
+	font-size: 12px !important;
+	color: #2F783D;
+	font-weight: bold;
+}
+.p_send24_error{
+	display: inline-block;
+	margin-left: 5px;
+	font-size: 12px !important;
+	color: #CB2828;
+	font-weight: bold;
+}
+a.link_print{
+	padding: 1px 8px;
+	border: 1px solid #E0E0E0;
+	text-decoration: none;
+	color: #585858;
+	text-transform: uppercase;
+	margin-right: 10px;
+	line-height: 35px;
+	border-radius: 3px;
+	background: #F7F7F7;
+}
+
+a.link_print:hover{
+	text-decoration: none;
+	opacity: 0.7;
+}
+#woocommerce_send24_shipping_level_express{
+	width: 75px;
+	pointer-events: none;
+	background: rgba(253, 253, 253, 0.56);
+}
+#woocommerce_send24_shipping_return_portal{
+	font-size: 14px;
+}
+
+#button_return{
+	margin-left: 240px;
+	margin-top: -38px;
+	display: block;
+	background: #F7F7F7;
+	width: 75px;
+	color: #717173;
+	text-align: center;
+	border: 1px solid #ccc;
+	cursor: pointer;
+	border-radius: 4px;
+	padding: 3px;
+	box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+	text-decoration: none;
+	outline:none !important;
+}
+#button_return:hover{
+	opacity: 0.7;
+	outline: none;
+}
+#link_return{
+	margin-left: 235px;
+	display: block;
+	color: #0E9DAC;
+	margin-top: -32px;
+	text-decoration: none;
+	outline:none !important;
+	line-height: none;
+}
+#link_return:active{
+	outline: none;
+}
+#link_return:hover{
+	opacity: 0.8;
+	outline: none;
+}
