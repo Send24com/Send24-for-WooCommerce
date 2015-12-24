@@ -5,7 +5,7 @@ Easy shipping integration for WooCommerce with Send24 shipping plugin. Online pu
 
 1. Select 'Add new' in the 'Plugins' menu to find and install the current Send24 plugin for WooCommerce.
 2. Activate the plugin.
-3. Setup the module under 'WooCommerce'/'Setting'/'Shipping'/'Send24.'
+3. Setup the module under 'WooCommerce/Setting/Shipping/Send24'.
 
 # Link 
 1. Link project - all rights reserved <a href="http://send24.com">Send24.com</a>
