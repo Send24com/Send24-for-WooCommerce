@@ -1,4 +1,5 @@
-# Send24
+# [Send24](http://send24.com) Plugin for Wordpress [![Latest Stable Version](https://poser.pugx.org/barbotkin/send24/v/stable)](https://packagist.org/packages/barbotkin/send24) [![License](https://poser.pugx.org/barbotkin/send24/license.svg)](http://opensource.org/licenses/GPL-3.0)
+
 Easy shipping integration for WooCommerce with Send24 shipping plugin. Online purchase, printing of shipping labels, booking of regular and express deliveries and real-time shipment tracking. 
 
 # Installation
