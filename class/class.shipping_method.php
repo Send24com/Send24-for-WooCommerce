@@ -701,50 +701,61 @@ class WC_Send24_Shipping_Method extends WC_Shipping_Method{
 			                $data_customer['shipping_country'] = 'Denmark';
 			            }
 			        	$full_shipping_address = ''.$data_customer['shipping_address_1'].', '.$data_customer['postcode'].' '.$data_customer['shipping_city'].', '.$data_customer['shipping_country'].'';
-
 			            // Get billing coordinates.
 			            $billing_url = "http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=".urlencode($full_billing_address);
 			            $billing_latlng = get_object_vars(json_decode(file_get_contents($billing_url)));
-			            $billing_lat = $billing_latlng['results'][0]->geometry->location->lat;
-			            $billing_lng = $billing_latlng['results'][0]->geometry->location->lng;
+			            // Check billing address.
+                		if(!empty($billing_latlng['results'])){
+				            $billing_lat = $billing_latlng['results'][0]->geometry->location->lat;
+				            $billing_lng = $billing_latlng['results'][0]->geometry->location->lng;
 
-			            // Get shipping coordinates.
-			            $shipping_url = "http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=".urlencode($full_shipping_address);
-			            $shipping_latlng = get_object_vars(json_decode(file_get_contents($shipping_url)));
-			            $shipping_lat = $shipping_latlng['results'][0]->geometry->location->lat;
-			            $shipping_lng = $shipping_latlng['results'][0]->geometry->location->lng;
+				            // Get shipping coordinates.
+				            $shipping_url = "http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=".urlencode($full_shipping_address);
+				            $shipping_latlng = get_object_vars(json_decode(file_get_contents($shipping_url)));
 
+				            // Check shipping address.
+                    		if(!empty($shipping_latlng['results'])){
+					            $shipping_lat = $shipping_latlng['results'][0]->geometry->location->lat;
+					            $shipping_lng = $shipping_latlng['results'][0]->geometry->location->lng;
+		 	  				    // get_is_driver_area_five_km
+					            $ch = curl_init();
+					            curl_setopt($ch, CURLOPT_URL, "https://send24.com/wc-api/v3/get_is_driver_area_five_km");
+					            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+					            curl_setopt($ch, CURLOPT_HEADER, FALSE);
+					            curl_setopt($ch, CURLOPT_POST, TRUE);
+					            curl_setopt($ch, CURLOPT_POSTFIELDS, '
+					                                            {
+					                                                "billing_lat": "'.$billing_lat.'",
+					                                                "billing_lng": "'.$billing_lng.'",
+					                                                "shipping_lat": "'.$shipping_lat.'",
+					                                                "shipping_lng": "'.$shipping_lng.'"
+					                                            }
+					                                            ');
 
- 	  				    // get_is_driver_area_five_km
-			            $ch = curl_init();
-			            curl_setopt($ch, CURLOPT_URL, "https://send24.com/wc-api/v3/get_is_driver_area_five_km");
-			            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-			            curl_setopt($ch, CURLOPT_HEADER, FALSE);
-			            curl_setopt($ch, CURLOPT_POST, TRUE);
-			            curl_setopt($ch, CURLOPT_POSTFIELDS, '
-			                                            {
-			                                                "billing_lat": "'.$billing_lat.'",
-			                                                "billing_lng": "'.$billing_lng.'",
-			                                                "shipping_lat": "'.$shipping_lat.'",
-			                                                "shipping_lng": "'.$shipping_lng.'"
-			                                            }
-			                                            ');
+					            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+					                "Content-Type: application/json",
+					                "Authorization: Basic ".$this->auth
+					            ));
 
-			            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-			                "Content-Type: application/json",
-			                "Authorization: Basic ".$this->auth
-			            ));
+					            $response = curl_exec($ch);
+					            $res = json_decode($response);
 
-			            $response = curl_exec($ch);
-			            $res = json_decode($response);
-
-			            if(!empty($res)){
-							$rate = array(
-								'id'    => $this->id.'_express',
-								'label' => 'Send24 Express(ETA: '.$res->time.')',
-								'cost'  => $coast_express
-							);
-							$this->add_rate($rate);
+					            if(!empty($res)){
+					            	 // Check start_time.
+                                	if(!empty($res->start_time)){
+                                		$picked_up_time = strtotime(''.date("Y-m-d").' '.$res->start_time.'');
+	                                    // Check time work from send24.com
+	                                    if($start_time < $picked_up_time && $end_time > $picked_up_time){
+											$rate = array(
+												'id'    => $this->id.'_express',
+												'label' => 'Send24 Express(ETA: '.$res->end_time.')',
+												'cost'  => $coast_express
+											);
+											$this->add_rate($rate);
+										}
+									}
+								}
+							}
 						}
 				}
 	  		}
